@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup 2026 — Predictions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Orbitron:wght@700;900&display=swap');
+
+  :root {
+    --gold:    #F5C542;
+    --gold2:   #E0A800;
+    --pitch:   #0A2A1A;
+    --deep:    #061510;
+    --grass:   #1A5C36;
+    --neon:    #39FF6A;
+    --silver:  #C8D6E5;
+    --white:   #FFFFFF;
+    --red:     #E63946;
+    --blue:    #1D3557;
+    --panel:   rgba(255,255,255,0.04);
+    --border:  rgba(245,197,66,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── FIELD LINES BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(26,92,54,0.35) 0%, transparent 70%),
+      linear-gradient(rgba(245,197,66,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,197,66,0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 60px 60px, 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px 40px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--deep);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    padding: 4px 16px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 30%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sub {
+    color: var(--silver);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .host-strip {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .host-strip span {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 28px 16px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .tab-btn {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--silver);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 8px 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: var(--deep);
+    border-color: transparent;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── GROUP GRID ── */
+  .group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  /* ── GROUP CARD ── */
+  .group-card {
+    background: linear-gradient(155deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .group-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(245,197,66,0.12);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .group-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .card-dates {
+    font-size: 0.64rem;
+    color: var(--silver);
+    letter-spacing: 0.08em;
+    text-align: right;
+    opacity: 0.7;
+  }
+  .winner-ribbon {
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 3px;
+  }
+
+  /* ── TEAM ROWS ── */
+  .team-row {
+    display: flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 10px;
+    position: relative;
+  }
+  .team-row:last-child { border-bottom: none; }
+  .team-flag { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+  .team-name { flex: 1; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em; }
+  .team-rank { font-size: 0.68rem; color: var(--silver); opacity: 0.6; margin-right: 4px; }
+  .badge-tag {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-winner { background: rgba(245,197,66,0.18); color: var(--gold); border: 1px solid rgba(245,197,66,0.4); }
+  .tag-qualify { background: rgba(57,255,106,0.10); color: var(--neon); border: 1px solid rgba(57,255,106,0.3); }
+  .tag-out { background: rgba(230,57,70,0.10); color: #ff6b7a; border: 1px solid rgba(230,57,70,0.2); }
+  .tag-host { background: rgba(29,53,87,0.4); color: #7ec8e3; border: 1px solid rgba(126,200,227,0.3); }
+  .tag-defending { background: rgba(139,92,246,0.18); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.35); }
+
+  /* ── KNOCKOUT SECTION ── */
+  .knockout-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    margin-top: 32px;
+  }
+  .knockout-sub { font-size: 0.78rem; color: var(--silver); opacity: 0.6; margin-bottom: 20px; }
+
+  .round-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .match-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .match-round-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  .match-team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .match-team .flag { font-size: 1rem; }
+  .match-vs { text-align: center; font-size: 0.65rem; color: var(--silver); opacity: 0.4; padding: 2px 0; }
+  .match-winner-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(245,197,66,0.1);
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .match-winner-tag .arrow { color: var(--neon); }
+
+  /* ── CHAMPION PODIUM ── */
+  .champion-box {
+    text-align: center;
+    padding: 40px 20px 50px;
+    background: linear-gradient(160deg, rgba(245,197,66,0.08) 0%, rgba(26,92,54,0.08) 100%);
+    border: 1px solid rgba(245,197,66,0.25);
+    border-radius: 14px;
+    margin-top: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .champion-box::before {
+    content: '🏆';
+    font-size: 5rem;
+    position: absolute;
+    top: -20px; left: 50%; transform: translateX(-50%);
+    opacity: 0.06;
+  }
+  .champion-flag { font-size: 4.5rem; margin-bottom: 14px; }
+  .champion-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, var(--gold) 0%, #fff 60%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .champion-label { font-size: 0.75rem; color: var(--silver); letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; margin-top: 6px; }
+  .champion-reason { max-width: 520px; margin: 18px auto 0; font-size: 0.82rem; color: var(--silver); opacity: 0.8; line-height: 1.65; }
+
+  .podium-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .podium-item {
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 22px;
+    min-width: 130px;
+  }
+  .podium-pos { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--silver); text-transform: uppercase; margin-bottom: 8px; opacity: 0.6; }
+  .podium-flag { font-size: 2rem; }
+  .podium-team { font-size: 0.78rem; font-weight: 700; margin-top: 6px; color: var(--gold); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--silver); }
+
+  /* ── SECTION SEPARATOR ── */
+  .section-sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 32px 0;
+  }
+
+  /* ── SEMIFINAL & FINAL SPECIAL ── */
+  .sf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 520px) { .sf-grid { grid-template-columns: 1fr; } }
+
+  .final-card {
+    background: linear-gradient(135deg, rgba(245,197,66,0.12) 0%, rgba(26,92,54,0.08) 100%);
+    border: 1px solid rgba(245,197,66,0.35);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .final-date { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+  .final-teams { display: flex; justify-content: center; align-items: center; gap: 18px; font-size: 0.9rem; font-weight: 700; }
+  .final-vs-big { font-size: 1.4rem; color: var(--gold); font-family: 'Bebas Neue', sans-serif; }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer {
+    text-align: center;
+    font-size: 0.68rem;
+    color: var(--silver);
+    opacity: 0.4;
+    margin-top: 32px;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+
+  @keyframes pulse-gold {
+    0%,100% { box-shadow: 0 0 0 0 rgba(245,197,66,0); }
+    50%      { box-shadow: 0 0 0 6px rgba(245,197,66,0.12); }
+  }
+  .champion-box { animation: pulse-gold 3s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">⚽ Official Tournament Preview</div>
+  <h1>FIFA WORLD CUP 2026</h1>
+  <p class="sub">Group Stage Predictions · Knockout Bracket · Champion Forecast</p>
+  <div class="host-strip">
+    <span>🇺🇸 United States</span>
+    <span>🇨🇦 Canada</span>
+    <span>🇲🇽 Mexico</span>
+    <span>June 11 — July 19, 2026</span>
+    <span>48 Teams · 12 Groups · 104 Matches</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('groups')">GROUP STAGE</button>
+  <button class="tab-btn" onclick="showTab('r32')">ROUND OF 32</button>
+  <button class="tab-btn" onclick="showTab('r16')">ROUND OF 16</button>
+  <button class="tab-btn" onclick="showTab('qf')">QUARTER-FINALS</button>
+  <button class="tab-btn" onclick="showTab('sf')">SEMI-FINALS</button>
+  <button class="tab-btn" onclick="showTab('final')">FINAL & CHAMPION</button>
+</div>
+
+<main>
+
+<!-- ═══════════════ GROUP STAGE ═══════════════ -->
+<div id="groups" class="section active">
+  <div class="legend">
+    <div class="legend-item"><span class="badge-tag tag-winner">● GROUP WINNER</span> Predicted to top group</div>
+    <div class="legend-item"><span class="badge-tag tag-qualify">● QUALIFIES</span> 2nd place advance</div>
+    <div class="legend-item"><span class="badge-tag tag-out">● EXITS</span> Group stage out</div>
+    <div class="legend-item"><span class="badge-tag tag-host">● HOST</span> Co-host nation</div>
+    <div class="legend-item"><span class="badge-tag tag-defending">● CHAMPION</span> Title holders</div>
+  </div>
+
+  <div class="group-grid">
+
+    <!-- GROUP A -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">A</div>
+        <div class="card-dates">Jun 11 – 24<br>Guadalajara · Mexico City</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#E63946,#c0392b)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇲🇽</span>
+        <span class="team-name">Mexico</span>
+        <span class="team-rank">#16</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+        <span class="badge-tag tag-host">Host</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇰🇷</span>
+        <span class="team-name">South Korea</span>
+        <span class="team-rank">#23</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇿</span>
+        <span class="team-name">Czechia</span>
+        <span class="team-rank">#40</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇿🇦</span>
+        <span class="team-name">South Africa</span>
+        <span class="team-rank">#53</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP B -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">B</div>
+        <div class="card-dates">Jun 12 – 25<br>Toronto · Vancouver</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#E63946,#c0392b)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇭</span>
+        <span class="team-name">Switzerland</span>
+        <span class="team-rank">#20</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇦</span>
+        <span class="team-name">Canada</span>
+        <span class="team-rank">#42</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+        <span class="badge-tag tag-host">Host</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇧🇦</span>
+        <span class="team-name">Bosnia & Herz.</span>
+        <span class="team-rank">#58</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇶🇦</span>
+        <span class="team-name">Qatar</span>
+        <span class="team-rank">#67</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP C -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">C</div>
+        <div class="card-dates">Jun 13 – 26<br>San Francisco · Los Angeles</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#009c3b,#FFDF00)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇧🇷</span>
+        <span class="team-name">Brazil</span>
+        <span class="team-rank">#5</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇲🇦</span>
+        <span class="team-name">Morocco</span>
+        <span class="team-rank">#14</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+        <span class="team-name">Scotland</span>
+        <span class="team-rank">#35</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇭🇹</span>
+        <span class="team-name">Haiti</span>
+        <span class="team-rank">#83</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP D -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">D</div>
+        <div class="card-dates">Jun 12 – 25<br>LA · Dallas · Kansas City</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#002868,#BF0A30)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇺🇸</span>
+        <span class="team-name">United States</span>
+        <span class="team-rank">#13</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+        <span class="badge-tag tag-host">Host</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇹🇷</span>
+        <span class="team-name">Türkiye</span>
+        <span class="team-rank">#28</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇦🇺</span>
+        <span class="team-name">Australia</span>
+        <span class="team-rank">#25</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇵🇾</span>
+        <span class="team-name">Paraguay</span>
+        <span class="team-rank">#61</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP E -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">E</div>
+        <div class="card-dates">Jun 14 – 25<br>New York · Philadelphia</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#000,#DD0000)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇩🇪</span>
+        <span class="team-name">Germany</span>
+        <span class="team-rank">#12</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇮</span>
+        <span class="team-name">Ivory Coast</span>
+        <span class="team-rank">#29</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇪🇨</span>
+        <span class="team-name">Ecuador</span>
+        <span class="team-rank">#44</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇼</span>
+        <span class="team-name">Curaçao</span>
+        <span class="team-rank">#82</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP F -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">F</div>
+        <div class="card-dates">Jun 14 – 26<br>Boston · Chicago</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#AE1C28,#21468B)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇳🇱</span>
+        <span class="team-name">Netherlands</span>
+        <span class="team-rank">#7</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇯🇵</span>
+        <span class="team-name">Japan</span>
+        <span class="team-rank">#18</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇸🇪</span>
+        <span class="team-name">Sweden</span>
+        <span class="team-rank">#22</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇹🇳</span>
+        <span class="team-name">Tunisia</span>
+        <span class="team-rank">#33</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP G -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">G</div>
+        <div class="card-dates">Jun 15 – 26<br>Seattle · Atlanta</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#EF3340,#000000)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇧🇪</span>
+        <span class="team-name">Belgium</span>
+        <span class="team-rank">#3</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇪🇬</span>
+        <span class="team-name">Egypt</span>
+        <span class="team-rank">#34</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇮🇷</span>
+        <span class="team-name">Iran</span>
+        <span class="team-rank">#19</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇳🇿</span>
+        <span class="team-name">New Zealand</span>
+        <span class="team-rank">#92</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP H -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">H</div>
+        <div class="card-dates">Jun 15 – 26<br>Atlanta · Miami</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#AA151B,#F1BF00)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇪🇸</span>
+        <span class="team-name">Spain</span>
+        <span class="team-rank">#1</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇺🇾</span>
+        <span class="team-name">Uruguay</span>
+        <span class="team-rank">#11</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇸🇦</span>
+        <span class="team-name">Saudi Arabia</span>
+        <span class="team-rank">#55</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇻</span>
+        <span class="team-name">Cape Verde</span>
+        <span class="team-rank">#71</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP I -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">I</div>
+        <div class="card-dates">Jun 16 – 27<br>Houston · Dallas</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#002654,#ED2939)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇫🇷</span>
+        <span class="team-name">France</span>
+        <span class="team-rank">#2</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇸🇳</span>
+        <span class="team-name">Senegal</span>
+        <span class="team-rank">#18</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇳🇴</span>
+        <span class="team-name">Norway</span>
+        <span class="team-rank">#24</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇮🇶</span>
+        <span class="team-name">Iraq</span>
+        <span class="team-rank">#55</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP J -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">J</div>
+        <div class="card-dates">Jun 16 – 27<br>Miami · Atlanta</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#74ACDF,#FFFFFF)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇦🇷</span>
+        <span class="team-name">Argentina</span>
+        <span class="team-rank">#8</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+        <span class="badge-tag tag-defending">Champion</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇦🇹</span>
+        <span class="team-name">Austria</span>
+        <span class="team-rank">#27</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇩🇿</span>
+        <span class="team-name">Algeria</span>
+        <span class="team-rank">#48</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇯🇴</span>
+        <span class="team-name">Jordan</span>
+        <span class="team-rank">#74</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP K -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">K</div>
+        <div class="card-dates">Jun 17 – 27<br>San Francisco · Seattle</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#006600,#FF0000)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇵🇹</span>
+        <span class="team-name">Portugal</span>
+        <span class="team-rank">#6</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇴</span>
+        <span class="team-name">Colombia</span>
+        <span class="team-rank">#9</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇨🇩</span>
+        <span class="team-name">DR Congo</span>
+        <span class="team-rank">#49</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇺🇿</span>
+        <span class="team-name">Uzbekistan</span>
+        <span class="team-rank">#62</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+    <!-- GROUP L -->
+    <div class="group-card">
+      <div class="card-header">
+        <div class="group-letter">L</div>
+        <div class="card-dates">Jun 17 – 28<br>New York · Boston</div>
+        <div class="winner-ribbon" style="background:linear-gradient(90deg,#012169,#C8102E)"></div>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+        <span class="team-name">England</span>
+        <span class="team-rank">#4</span>
+        <span class="badge-tag tag-winner">Group Winner</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇭🇷</span>
+        <span class="team-name">Croatia</span>
+        <span class="team-rank">#10</span>
+        <span class="badge-tag tag-qualify">Qualifies</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇬🇭</span>
+        <span class="team-name">Ghana</span>
+        <span class="team-rank">#56</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+      <div class="team-row">
+        <span class="team-flag">🇵🇦</span>
+        <span class="team-name">Panama</span>
+        <span class="team-rank">#73</span>
+        <span class="badge-tag tag-out">Exits</span>
+      </div>
+    </div>
+
+  </div><!-- /group-grid -->
+</div><!-- /groups section -->
+
+
+<!-- ═══════════════ ROUND OF 32 ═══════════════ -->
+<div id="r32" class="section">
+  <div class="knockout-title">ROUND OF 32</div>
+  <p class="knockout-sub">32 teams · Top 2 from each group + 8 best 3rd-place finishers · Jul 1–5, 2026</p>
+  <div class="round-grid">
+
+    <div class="match-card">
+      <div class="match-round-label">Match R32-1</div>
+      <div class="match-team"><span class="flag">🇲🇽</span> Mexico</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇸🇳</span> Senegal</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Mexico advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-2</div>
+      <div class="match-team"><span class="flag">🇧🇷</span> Brazil</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇯🇵</span> Japan</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Brazil advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-3</div>
+      <div class="match-team"><span class="flag">🇩🇪</span> Germany</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇲🇦</span> Morocco</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Germany advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-4</div>
+      <div class="match-team"><span class="flag">🇺🇸</span> USA</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇪🇬</span> Egypt</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> USA advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-5</div>
+      <div class="match-team"><span class="flag">🇪🇸</span> Spain</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇦🇹</span> Austria</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Spain advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-6</div>
+      <div class="match-team"><span class="flag">🇫🇷</span> France</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇨🇮</span> Ivory Coast</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> France advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-7</div>
+      <div class="match-team"><span class="flag">🇵🇹</span> Portugal</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇺🇾</span> Uruguay</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Portugal advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-8</div>
+      <div class="match-team"><span class="flag">🇦🇷</span> Argentina</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇨🇭</span> Switzerland</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Argentina advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-9</div>
+      <div class="match-team"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇨🇦</span> Canada</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> England advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-10</div>
+      <div class="match-team"><span class="flag">🇧🇪</span> Belgium</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇨🇴</span> Colombia</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Belgium advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-11</div>
+      <div class="match-team"><span class="flag">🇳🇱</span> Netherlands</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇹🇷</span> Türkiye</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Netherlands advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R32-12</div>
+      <div class="match-team"><span class="flag">🇭🇷</span> Croatia</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇰🇷</span> South Korea</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Croatia advance</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════ ROUND OF 16 ═══════════════ -->
+<div id="r16" class="section">
+  <div class="knockout-title">ROUND OF 16</div>
+  <p class="knockout-sub">16 best teams · Where the tournament truly ignites · Jul 6–9, 2026</p>
+  <div class="round-grid">
+
+    <div class="match-card">
+      <div class="match-round-label">Match R16-1</div>
+      <div class="match-team"><span class="flag">🇲🇽</span> Mexico</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇩🇪</span> Germany</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Germany advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R16-2</div>
+      <div class="match-team"><span class="flag">🇧🇷</span> Brazil</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇺🇸</span> USA</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Brazil advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R16-3</div>
+      <div class="match-team"><span class="flag">🇪🇸</span> Spain</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇧🇪</span> Belgium</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Spain advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R16-4</div>
+      <div class="match-team"><span class="flag">🇫🇷</span> France</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇳🇱</span> Netherlands</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> France advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R16-5</div>
+      <div class="match-team"><span class="flag">🇵🇹</span> Portugal</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> England advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">Match R16-6</div>
+      <div class="match-team"><span class="flag">🇦🇷</span> Argentina</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇭🇷</span> Croatia</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Argentina advance</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════ QUARTER-FINALS ═══════════════ -->
+<div id="qf" class="section">
+  <div class="knockout-title">QUARTER-FINALS</div>
+  <p class="knockout-sub">The world watches · Jul 10–12, 2026</p>
+  <div class="round-grid">
+
+    <div class="match-card">
+      <div class="match-round-label">QF-1 · New York/New Jersey</div>
+      <div class="match-team"><span class="flag">🇩🇪</span> Germany</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇧🇷</span> Brazil</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> Brazil advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">QF-2 · Dallas</div>
+      <div class="match-team"><span class="flag">🇪🇸</span> Spain</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇫🇷</span> France</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> France advance</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">QF-3 · Los Angeles</div>
+      <div class="match-team"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team"><span class="flag">🇦🇷</span> Argentina</div>
+      <div class="match-winner-tag"><span class="arrow">▶</span> England advance</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════ SEMI-FINALS ═══════════════ -->
+<div id="sf" class="section">
+  <div class="knockout-title">SEMI-FINALS</div>
+  <p class="knockout-sub">Four nations. Two spots in the final. · Jul 15–16, 2026</p>
+  <div class="sf-grid">
+
+    <div class="match-card">
+      <div class="match-round-label">SF-1 · MetLife Stadium · Jul 15</div>
+      <div class="match-team" style="font-size:1rem;"><span class="flag">🇧🇷</span> Brazil</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team" style="font-size:1rem;"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+      <div class="match-winner-tag" style="font-size:0.85rem;"><span class="arrow">▶</span> England advance to the FINAL</div>
+    </div>
+    <div class="match-card">
+      <div class="match-round-label">SF-2 · Rose Bowl · Jul 16</div>
+      <div class="match-team" style="font-size:1rem;"><span class="flag">🇫🇷</span> France</div>
+      <div class="match-vs">vs</div>
+      <div class="match-team" style="font-size:1rem;"><span class="flag">🇩🇪</span> Germany</div>
+      <div class="match-winner-tag" style="font-size:0.85rem;"><span class="arrow">▶</span> France advance to the FINAL</div>
+    </div>
+
+  </div>
+  <p style="font-size:0.78rem;color:var(--silver);opacity:0.6;margin-top:8px;">3rd Place playoff: Brazil vs Germany — Winner: <strong style="color:var(--gold)">🇩🇪 Germany</strong></p>
+</div>
+
+
+<!-- ═══════════════ FINAL ═══════════════ -->
+<div id="final" class="section">
+  <div class="knockout-title">THE FINAL</div>
+  <p class="knockout-sub">MetLife Stadium · East Rutherford, New Jersey · July 19, 2026</p>
+
+  <div class="final-card">
+    <div class="final-date">⚽ FIFA WORLD CUP 2026 FINAL · JULY 19, 2026 · 3:00 PM ET</div>
+    <div class="final-teams">
+      <div>🏴󠁧󠁢󠁥󠁮󠁧󠁿<br><span style="font-size:1.1rem;">England</span></div>
+      <div class="final-vs-big">VS</div>
+      <div>🇫🇷<br><span style="font-size:1.1rem;">France</span></div>
+    </div>
+    <p style="font-size:0.72rem;color:var(--silver);margin-top:16px;opacity:0.6;">A historic clash between two football giants — a rematch of decades of rivalry</p>
+  </div>
+
+  <div class="champion-box">
+    <div class="champion-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+    <div class="champion-name">ENGLAND</div>
+    <div class="champion-label">🏆 Predicted 2026 FIFA World Cup Champion</div>
+    <p class="champion-reason">
+      England enters 2026 with a golden generation finally firing together — a world-class goalkeeper, a deep midfield engine, and lethal forwards. After 60 years of hurt since 1966, the stars align: home-like atmosphere in America, a favorable bracket, and the hunger that only a nation that has never won on foreign soil can have. France and Brazil will push them to their limits — but this is England's moment.
+    </p>
+  </div>
+
+  <div class="podium-row">
+    <div class="podium-item">
+      <div class="podium-pos">🥇 Champion</div>
+      <div class="podium-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+      <div class="podium-team">England</div>
+    </div>
+    <div class="podium-item">
+      <div class="podium-pos">🥈 Runner-Up</div>
+      <div class="podium-flag">🇫🇷</div>
+      <div class="podium-team">France</div>
+    </div>
+    <div class="podium-item">
+      <div class="podium-pos">🥉 3rd Place</div>
+      <div class="podium-flag">🇩🇪</div>
+      <div class="podium-team">Germany</div>
+    </div>
+    <div class="podium-item">
+      <div class="podium-pos">4th Place</div>
+      <div class="podium-flag">🇧🇷</div>
+      <div class="podium-team">Brazil</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ★ These are editorial predictions based on historical World Cup performance, current FIFA rankings,<br>
+    squad depth, tournament experience, and bracket analysis. Football always surprises. ★
+  </div>
+</div>
+
+</main>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
